@@ -83,6 +83,19 @@
 }
 
 /* Dark mode specific component adjustments */
+
+/* Fix primary button gradient artifacts */
+[data-theme="dark"] .btn--primary {
+  background: var(--gradient-primary);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .btn--primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-md);
+  border: 1px solid transparent;
+}
+
 [data-theme="dark"] .btn--secondary {
   color: var(--color-primary-400);
   border-color: var(--color-primary-400);
