@@ -2617,13 +2617,14 @@
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 }
 [data-theme=dark] .btn--primary {
-  background: var(--gradient-primary);
-  border: 1px solid transparent;
+  background: var(--color-primary-600);
+  border: none;
   box-shadow: var(--shadow-sm);
 }
 [data-theme=dark] .btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-700);
   box-shadow: var(--shadow-md);
-  border: 1px solid transparent;
+  border: none;
 }
 [data-theme=dark] .btn--secondary {
   color: var(--color-primary-400);
