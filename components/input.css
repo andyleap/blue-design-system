@@ -178,7 +178,6 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-weight: var(--font-normal);
 }
 
 /* Input with icon */
