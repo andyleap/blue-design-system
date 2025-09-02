@@ -130,6 +130,34 @@
   background-color: var(--color-surface);
 }
 
+/* Form help text visibility in dark mode */
+[data-theme="dark"] .form-help--success {
+  color: var(--color-success-500);
+}
+
+[data-theme="dark"] .form-error {
+  color: var(--color-error-500);
+}
+
+/* Input state overrides for dark mode */
+[data-theme="dark"] .input--success {
+  border-color: var(--color-success-500);
+}
+
+[data-theme="dark"] .input--success:focus {
+  border-color: var(--color-success-500);
+  box-shadow: 0 0 0 1px var(--color-success-500);
+}
+
+[data-theme="dark"] .input--error {
+  border-color: var(--color-error-500);
+}
+
+[data-theme="dark"] .input--error:focus {
+  border-color: var(--color-error-500);
+  box-shadow: 0 0 0 1px var(--color-error-500);
+}
+
 [data-theme="dark"] .card {
   background-color: var(--color-surface);
   border-color: var(--color-border-subtle);

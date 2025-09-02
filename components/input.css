@@ -156,6 +156,11 @@
   line-height: var(--leading-normal);
 }
 
+/* Form help success variant */
+.form-help--success {
+  color: var(--color-success-500);
+}
+
 /* Form error text */
 .form-error {
   font-size: var(--text-sm);
