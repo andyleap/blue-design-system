@@ -326,20 +326,112 @@
             <h2 class="heading-2">Layout System</h2>
             <p class="text-muted">Flexible grid and utility classes for responsive layouts</p>
             
-            <div class="demo-card">
-                <h3 class="heading-3">CSS Grid</h3>
-                <div class="grid grid-cols-3 gap-4" style="margin: 1rem 0;">
-                    <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Item 1</div>
-                    <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Item 2</div>
-                    <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center; grid-column: span 2;">Item 3 (spans 2)</div>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3 class="heading-3">Basic CSS Grid</h3>
+                    <div class="grid grid-cols-3 gap-4" style="margin: 1rem 0;">
+                        <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Item 1</div>
+                        <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Item 2</div>
+                        <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Item 3</div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <h3 class="heading-3">Grid with Spanning</h3>
+                    <div class="grid grid-cols-4 gap-3" style="margin: 1rem 0;">
+                        <div style="background: var(--color-primary-200); padding: 1rem; border-radius: var(--radius-base); text-align: center; grid-column: span 2;">Header (span 2)</div>
+                        <div style="background: var(--color-secondary-200); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Side 1</div>
+                        <div style="background: var(--color-secondary-200); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Side 2</div>
+                        <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Content</div>
+                        <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Content</div>
+                        <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Content</div>
+                        <div style="background: var(--color-primary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center;">Content</div>
+                    </div>
                 </div>
             </div>
             
             <div class="demo-card">
-                <h3 class="heading-3">Flexbox Utilities</h3>
-                <div class="flex items-center justify-between gap-4" style="margin: 1rem 0;">
-                    <div style="background: var(--color-secondary-100); padding: 1rem; border-radius: var(--radius-base); flex: 1;">Flexible item</div>
-                    <div style="background: var(--color-secondary-100); padding: 1rem; border-radius: var(--radius-base);">Fixed item</div>
+                <h3 class="heading-3">Responsive Grid (Resize to see effect)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" style="margin: 1rem 0;">
+                    <div class="card" style="margin: 0;">
+                        <div class="card__body" style="padding: 1rem;">
+                            <h4 style="margin: 0 0 0.5rem; font-size: 1rem;">Mobile: 1 col</h4>
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">Stacks vertically</p>
+                        </div>
+                    </div>
+                    <div class="card" style="margin: 0;">
+                        <div class="card__body" style="padding: 1rem;">
+                            <h4 style="margin: 0 0 0.5rem; font-size: 1rem;">Tablet: 2 cols</h4>
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">Side by side</p>
+                        </div>
+                    </div>
+                    <div class="card" style="margin: 0;">
+                        <div class="card__body" style="padding: 1rem;">
+                            <h4 style="margin: 0 0 0.5rem; font-size: 1rem;">Desktop: 4 cols</h4>
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">Full grid layout</p>
+                        </div>
+                    </div>
+                    <div class="card" style="margin: 0;">
+                        <div class="card__body" style="padding: 1rem;">
+                            <h4 style="margin: 0 0 0.5rem; font-size: 1rem;">Responsive</h4>
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">Adapts automatically</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3 class="heading-3">Dashboard Layout</h3>
+                    <div class="grid grid-cols-12 gap-3" style="margin: 1rem 0; min-height: 200px;">
+                        <div style="background: var(--color-primary-200); padding: 1rem; border-radius: var(--radius-base); text-align: center; grid-column: span 12; display: flex; align-items: center; justify-content: center; font-weight: 600;">Navigation Header</div>
+                        <div style="background: var(--color-secondary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center; grid-column: span 3; display: flex; align-items: center; justify-content: center;">Sidebar</div>
+                        <div style="background: var(--color-primary-50); padding: 1rem; border-radius: var(--radius-base); text-align: center; grid-column: span 6; display: flex; align-items: center; justify-content: center;">Main Content</div>
+                        <div style="background: var(--color-secondary-100); padding: 1rem; border-radius: var(--radius-base); text-align: center; grid-column: span 3; display: flex; align-items: center; justify-content: center;">Widgets</div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <h3 class="heading-3">Flexbox Utilities</h3>
+                    <div class="flex items-center justify-between gap-4" style="margin: 1rem 0; padding: 1rem; background: var(--color-surface-variant); border-radius: var(--radius-base);">
+                        <div style="background: var(--color-secondary-100); padding: 0.75rem; border-radius: var(--radius-base); flex: 1;">Flexible item (grows)</div>
+                        <div style="background: var(--color-secondary-200); padding: 0.75rem; border-radius: var(--radius-base);">Fixed item</div>
+                        <div style="background: var(--color-secondary-200); padding: 0.75rem; border-radius: var(--radius-base);">Fixed item</div>
+                    </div>
+                    
+                    <div class="flex flex-col gap-2" style="margin: 1rem 0;">
+                        <div style="background: var(--color-info-100); padding: 0.75rem; border-radius: var(--radius-base); text-align: center;">Flex Column Item 1</div>
+                        <div style="background: var(--color-info-100); padding: 0.75rem; border-radius: var(--radius-base); text-align: center;">Flex Column Item 2</div>
+                        <div style="background: var(--color-info-100); padding: 0.75rem; border-radius: var(--radius-base); text-align: center;">Flex Column Item 3</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h3 class="heading-3">Card Grid Layout</h3>
+                <p style="margin-bottom: 1rem; color: var(--color-text-muted);">Perfect for product grids, image galleries, or feature showcases</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style="margin: 1rem 0;">
+                    <div class="card" style="margin: 0;">
+                        <div style="background: linear-gradient(135deg, var(--color-primary-400), var(--color-primary-600)); height: 120px; border-radius: var(--radius-base) var(--radius-base) 0 0;"></div>
+                        <div class="card__body">
+                            <h4 class="card__title">Feature One</h4>
+                            <p class="card__text">Beautiful gradient backgrounds with modern styling</p>
+                        </div>
+                    </div>
+                    <div class="card" style="margin: 0;">
+                        <div style="background: linear-gradient(135deg, var(--color-secondary-400), var(--color-secondary-600)); height: 120px; border-radius: var(--radius-base) var(--radius-base) 0 0;"></div>
+                        <div class="card__body">
+                            <h4 class="card__title">Feature Two</h4>
+                            <p class="card__text">Responsive grid system that adapts to any screen</p>
+                        </div>
+                    </div>
+                    <div class="card" style="margin: 0;">
+                        <div style="background: linear-gradient(135deg, var(--color-info-400), var(--color-info-600)); height: 120px; border-radius: var(--radius-base) var(--radius-base) 0 0;"></div>
+                        <div class="card__body">
+                            <h4 class="card__title">Feature Three</h4>
+                            <p class="card__text">Clean design system with consistent spacing</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
