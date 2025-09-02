@@ -55,10 +55,16 @@
             font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1rem;
+        }
+        [data-theme="dark"] .hero-title {
             background: linear-gradient(135deg, #ffffff, #e0e7ff);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        [data-theme="light"] .hero-title {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         .hero-subtitle {
             font-size: 1.25rem;
