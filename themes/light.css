@@ -1,0 +1,63 @@
+/* Design System - Light Theme */
+
+/* Light theme is the default, but we can explicitly define it */
+[data-theme="light"], 
+:root:not([data-theme]) {
+  /* Light theme uses the default color tokens from colors.css */
+  /* These are already defined in the root, but we can override if needed */
+  
+  /* Light mode specific overrides if needed */
+  --color-background: var(--color-neutral-0);
+  --color-surface: var(--color-neutral-0);
+  --color-surface-variant: var(--color-neutral-50);
+  --color-border: var(--color-neutral-200);
+  --color-border-subtle: var(--color-neutral-100);
+  
+  --color-text: var(--color-neutral-900);
+  --color-text-subtle: var(--color-neutral-600);
+  --color-text-muted: var(--color-neutral-500);
+  --color-text-inverse: var(--color-neutral-0);
+
+  /* Interactive states */
+  --color-hover-overlay: rgba(0, 0, 0, 0.04);
+  --color-focus-ring: var(--color-primary-500);
+  --color-disabled: var(--color-neutral-300);
+  --color-disabled-text: var(--color-neutral-400);
+}
+
+/* Light mode scrollbars */
+[data-theme="light"] ::-webkit-scrollbar,
+:root:not([data-theme]) ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track,
+:root:not([data-theme]) ::-webkit-scrollbar-track {
+  background: var(--color-neutral-100);
+  border-radius: var(--radius-base);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb,
+:root:not([data-theme]) ::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: var(--radius-base);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover,
+:root:not([data-theme]) ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral-400);
+}
+
+/* Selection colors for light mode */
+[data-theme="light"] ::selection,
+:root:not([data-theme]) ::selection {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: var(--color-text);
+}
+
+[data-theme="light"] ::-moz-selection,
+:root:not([data-theme]) ::-moz-selection {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: var(--color-text);
+}

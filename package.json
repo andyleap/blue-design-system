@@ -1,0 +1,43 @@
+{
+  "name": "blue-design-system",
+  "version": "1.0.0",
+  "description": "A blue-focused design system optimized for dark mode with beautiful gradients and modern aesthetics",
+  "main": "design-system.css",
+  "files": [
+    "design-system.css",
+    "tokens/**/*.css",
+    "components/**/*.css",
+    "layouts/**/*.css",
+    "themes/**/*.css",
+    "docs/**/*",
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "echo 'CSS is pre-built, no build step needed'",
+    "test": "echo 'No tests defined yet'"
+  },
+  "keywords": [
+    "css",
+    "design-system",
+    "dark-mode",
+    "blue",
+    "modern",
+    "responsive",
+    "accessibility",
+    "components",
+    "tokens"
+  ],
+  "author": "Claude Code Assistant",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/blue-design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/blue-design-system/issues"
+  },
+  "homepage": "https://github.com/your-org/blue-design-system#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

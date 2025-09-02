@@ -1,0 +1,236 @@
+/* Design System - Card Component */
+
+/* Base card styles */
+.card {
+  background-color: var(--color-surface);
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-shadow);
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Card variants */
+
+/* Elevated card */
+.card--elevated {
+  box-shadow: var(--shadow-md);
+  border: none;
+}
+
+.card--elevated:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+/* Outlined card */
+.card--outlined {
+  background-color: transparent;
+  border: var(--border-1) solid var(--color-border);
+  box-shadow: none;
+}
+
+.card--outlined:hover {
+  border-color: var(--color-primary-300);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Interactive card (clickable) */
+.card--interactive {
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.card--interactive:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card--interactive:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-md);
+}
+
+/* Card sections */
+
+/* Card header */
+.card__header {
+  padding: var(--space-6);
+  border-bottom: var(--border-1) solid var(--color-border-subtle);
+  background-color: var(--color-surface-variant);
+}
+
+.card__header:last-child {
+  border-bottom: none;
+}
+
+/* Card body/content */
+.card__body {
+  padding: var(--space-6);
+}
+
+.card__content {
+  padding: var(--space-6);
+}
+
+/* Card footer */
+.card__footer {
+  padding: var(--space-6);
+  border-top: var(--border-1) solid var(--color-border-subtle);
+  background-color: var(--color-surface-variant);
+}
+
+.card__footer:first-child {
+  border-top: none;
+}
+
+/* Card media */
+.card__media {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.card__media--aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.card__media--aspect-square {
+  aspect-ratio: 1;
+}
+
+/* Card title and text */
+.card__title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin: 0 0 var(--space-2) 0;
+  line-height: var(--leading-tight);
+}
+
+.card__subtitle {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--color-text-subtle);
+  margin: 0 0 var(--space-4) 0;
+  line-height: var(--leading-normal);
+}
+
+.card__text {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
+
+.card__caption {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+  margin: var(--space-2) 0 0 0;
+}
+
+/* Card actions */
+.card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+}
+
+.card__actions--end {
+  justify-content: flex-end;
+}
+
+.card__actions--center {
+  justify-content: center;
+}
+
+.card__actions--between {
+  justify-content: space-between;
+}
+
+/* Card sizes */
+
+/* Compact card */
+.card--compact .card__header,
+.card--compact .card__body,
+.card--compact .card__content,
+.card--compact .card__footer {
+  padding: var(--space-4);
+}
+
+.card--compact .card__actions {
+  padding: var(--space-3) var(--space-4);
+}
+
+/* Spacious card */
+.card--spacious .card__header,
+.card--spacious .card__body,
+.card--spacious .card__content,
+.card--spacious .card__footer {
+  padding: var(--space-8);
+}
+
+.card--spacious .card__actions {
+  padding: var(--space-6) var(--space-8);
+}
+
+/* Card layouts */
+
+/* Horizontal card */
+.card--horizontal {
+  display: flex;
+  align-items: stretch;
+}
+
+.card--horizontal .card__media {
+  flex-shrink: 0;
+  width: 200px;
+  height: auto;
+}
+
+.card--horizontal .card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card grid system */
+.card-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.card-grid--dense {
+  gap: var(--space-4);
+}
+
+.card-grid--loose {
+  gap: var(--space-8);
+}
+
+/* Responsive card grid */
+@media (min-width: 640px) {
+  .card-grid--sm-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .card-grid--md-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid--lg-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
