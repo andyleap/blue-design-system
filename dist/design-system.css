@@ -2159,6 +2159,16 @@
   color: var(--color-error-500);
   line-height: var(--leading-normal);
 }
+.form-label input[type=checkbox] {
+  margin-right: var(--space-2);
+  margin-top: 0;
+}
+.form-label:has(input[type=checkbox]) {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: var(--font-normal);
+}
 .input-with-icon {
   position: relative;
   display: flex;

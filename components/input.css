@@ -168,6 +168,19 @@
   line-height: var(--leading-normal);
 }
 
+/* Checkbox styling */
+.form-label input[type="checkbox"] {
+  margin-right: var(--space-2);
+  margin-top: 0;
+}
+
+.form-label:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: var(--font-normal);
+}
+
 /* Input with icon */
 .input-with-icon {
   position: relative;
