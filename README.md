@@ -2,8 +2,11 @@
 
 A modern, accessible design system optimized for dark mode with beautiful blue color palettes and gradients. Perfect for authentication services, dashboards, and modern web applications.
 
-[![npm version](https://badge.fury.io/js/blue-design-system.svg)](https://badge.fury.io/js/blue-design-system)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## 🚀 [View Live Demo](https://andyleap.github.io/blue-design-system)
+
+See all components in action with interactive examples and theme switching.
 
 ## Features
 
@@ -18,25 +21,24 @@ A modern, accessible design system optimized for dark mode with beautiful blue c
 
 ### Installation
 
-#### Via npm (recommended)
+#### Option 1: Use Pre-built CSS (Recommended)
 
-```bash
-npm install blue-design-system
-```
-
-#### Via CDN
+Download the bundled CSS file from the [releases page](https://github.com/andyleap/blue-design-system/releases) or use the built version:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/blue-design-system@latest/design-system.css">
+<link rel="stylesheet" href="https://andyleap.github.io/blue-design-system/dist/design-system.css">
 ```
 
-#### Manual Download
+#### Option 2: Build from Source
 
-Download the `design-system.css` file and include it in your project:
+If you want to customize the design system or use it with a build process:
 
-```html
-<link rel="stylesheet" href="path/to/design-system.css">
-```
+1. Clone this repository
+2. Install dependencies: `npm install`
+3. Build the CSS: `npm run build:dev`
+4. Use the bundled file from `dist/design-system.css`
+
+**Recommended**: Use ESBuild or another CSS preprocessor to handle the @import statements and bundle everything into a single file.
 
 ### Theme Setup
 
