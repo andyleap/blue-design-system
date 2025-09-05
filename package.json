@@ -2,11 +2,41 @@
   "name": "blue-design-system",
   "version": "1.0.0",
   "description": "A blue-focused design system optimized for dark mode with beautiful gradients and modern aesthetics",
-  "private": true,
+  "main": "dist/design-system.css",
+  "style": "dist/design-system.css",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "style": "./dist/design-system.css",
+      "default": "./dist/design-system.css"
+    },
+    "./css": "./dist/design-system.css",
+    "./css/min": "./dist/design-system.min.css",
+    "./tokens": "./tokens/bundle.css",
+    "./components": "./components/bundle.css",
+    "./themes": "./themes/bundle.css"
+  },
+  "files": [
+    "dist/",
+    "tokens/",
+    "components/",
+    "themes/",
+    "layouts/",
+    "design-system.css",
+    "README.md",
+    "CHANGELOG.md",
+    "types/"
+  ],
   "scripts": {
-    "build": "esbuild design-system.css --bundle --outfile=dist/design-system.min.css --minify",
-    "build:dev": "esbuild design-system.css --bundle --outfile=dist/design-system.css --sourcemap",
-    "watch": "esbuild design-system.css --bundle --outfile=dist/design-system.css --sourcemap --watch"
+    "build": "npm run build:css && npm run build:min && npm run build:tokens",
+    "build:css": "esbuild design-system.css --bundle --outfile=dist/design-system.css --sourcemap",
+    "build:min": "esbuild design-system.css --bundle --outfile=dist/design-system.min.css --minify",
+    "build:tokens": "npm run build:tokens:css && npm run build:components:css && npm run build:themes:css",
+    "build:tokens:css": "esbuild tokens/index.css --bundle --outfile=tokens/bundle.css",
+    "build:components:css": "esbuild components/index.css --bundle --outfile=components/bundle.css",
+    "build:themes:css": "esbuild themes/index.css --bundle --outfile=themes/bundle.css",
+    "watch": "esbuild design-system.css --bundle --outfile=dist/design-system.css --sourcemap --watch",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "esbuild": "^0.20.0"
@@ -23,5 +53,13 @@
     "tokens"
   ],
   "author": "Claude Code Assistant",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyleap/blue-design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andyleap/blue-design-system/issues"
+  },
+  "homepage": "https://andyleap.github.io/blue-design-system"
 }
