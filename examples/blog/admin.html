@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Admin - Blue Design System</title>
+    <link rel="stylesheet" href="../../design-system.css">
+    <style>
+        /* Admin-specific styles */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-6);
+            margin-top: var(--space-4);
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .admin-title {
+            font-size: var(--text-3xl);
+            margin: 0;
+            color: var(--color-text);
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+        
+        .stat-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+        }
+        
+        .stat-number.primary { color: var(--color-primary-500); }
+        .stat-number.success { color: var(--color-success-500); }
+        .stat-number.warning { color: var(--color-warning-500); }
+        .stat-number.info { color: var(--color-info-500); }
+        
+        .stat-label {
+            color: var(--color-text-subtle);
+            font-size: var(--text-sm);
+        }
+        
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: var(--space-8);
+        }
+        
+        .posts-table-container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-6);
+            background: var(--color-surface-variant);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .table-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin: 0;
+        }
+        
+        .posts-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .posts-table th,
+        .posts-table td {
+            padding: var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .posts-table th {
+            background: var(--color-surface-variant);
+            font-weight: var(--font-semibold);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+        }
+        
+        .posts-table td {
+            font-size: var(--text-sm);
+        }
+        
+        .post-title-cell {
+            font-weight: var(--font-medium);
+            color: var(--color-text);
+        }
+        
+        .post-author {
+            color: var(--color-text-subtle);
+        }
+        
+        .post-date {
+            color: var(--color-text-muted);
+        }
+        
+        .status-badge {
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: var(--font-medium);
+        }
+        
+        .status-published {
+            background: var(--color-success-100);
+            color: var(--color-success-700);
+        }
+        
+        .status-draft {
+            background: var(--color-warning-100);
+            color: var(--color-warning-700);
+        }
+        
+        .status-scheduled {
+            background: var(--color-info-100);
+            color: var(--color-info-700);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: var(--space-1);
+        }
+        
+        .action-btn {
+            padding: var(--space-1) var(--space-2);
+            font-size: var(--text-xs);
+        }
+        
+        .admin-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+        
+        .sidebar-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+        }
+        
+        .sidebar-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-4);
+            color: var(--color-text);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-sm);
+            flex-shrink: 0;
+        }
+        
+        .activity-icon.post { background: var(--color-primary-100); color: var(--color-primary-600); }
+        .activity-icon.user { background: var(--color-success-100); color: var(--color-success-600); }
+        .activity-icon.comment { background: var(--color-info-100); color: var(--color-info-600); }
+        
+        .activity-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .activity-text {
+            font-size: var(--text-sm);
+            color: var(--color-text);
+            margin-bottom: var(--space-1);
+        }
+        
+        .activity-time {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        @media (max-width: 768px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-6);
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: var(--space-4);
+                align-items: flex-start;
+            }
+            
+            .stats-row {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .posts-table {
+                font-size: var(--text-xs);
+            }
+            
+            .posts-table th,
+            .posts-table td {
+                padding: var(--space-2);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Header -->
+    <header class="header header--sticky header--shadow" id="main-header">
+        <a href="../../" class="header__brand">
+            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            Blog Admin
+        </a>
+        
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link header__nav-link--active">Dashboard</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Posts</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Comments</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Users</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="index.html" class="header__nav-link">View Blog</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="../../" class="header__nav-link">Design System</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="header__actions">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <span class="light-only">🌙</span>
+                <span class="dark-only">☀️</span>
+            </button>
+            <div class="header__user">
+                <div class="header__avatar">AD</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Container -->
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <h1 class="admin-title">Blog Dashboard</h1>
+            <div class="admin-actions">
+                <button class="btn btn--secondary">
+                    <span>📊</span> Analytics
+                </button>
+                <button class="btn btn--primary">
+                    <span>✍️</span> New Post
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number primary">247</div>
+                <div class="stat-label">Total Posts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number success">1,842</div>
+                <div class="stat-label">Total Views</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number warning">23</div>
+                <div class="stat-label">Pending Comments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number info">156</div>
+                <div class="stat-label">Subscribers</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="admin-grid">
+            <!-- Posts Table -->
+            <div class="posts-table-container">
+                <div class="table-header">
+                    <h2 class="table-title">Recent Posts</h2>
+                    <div class="admin-actions">
+                        <button class="btn btn--ghost btn--sm">Filter</button>
+                        <button class="btn btn--ghost btn--sm">Export</button>
+                    </div>
+                </div>
+                
+                <table class="posts-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Views</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="post-title-cell">Building Scalable Design Systems</td>
+                            <td class="post-author">Sarah Chen</td>
+                            <td><span class="status-badge status-published">Published</span></td>
+                            <td class="post-date">Mar 15, 2024</td>
+                            <td>1,247</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn--ghost action-btn">Edit</button>
+                                    <button class="btn btn--ghost action-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="post-title-cell">Modern CSS Grid Layouts</td>
+                            <td class="post-author">Alex Rivera</td>
+                            <td><span class="status-badge status-published">Published</span></td>
+                            <td class="post-date">Mar 12, 2024</td>
+                            <td>923</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn--ghost action-btn">Edit</button>
+                                    <button class="btn btn--ghost action-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="post-title-cell">Accessibility in Dark Mode</td>
+                            <td class="post-author">Morgan Taylor</td>
+                            <td><span class="status-badge status-published">Published</span></td>
+                            <td class="post-date">Mar 10, 2024</td>
+                            <td>1,456</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn--ghost action-btn">Edit</button>
+                                    <button class="btn btn--ghost action-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="post-title-cell">CSS Container Queries Guide</td>
+                            <td class="post-author">Sarah Chen</td>
+                            <td><span class="status-badge status-draft">Draft</span></td>
+                            <td class="post-date">Mar 8, 2024</td>
+                            <td>--</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn--ghost action-btn">Edit</button>
+                                    <button class="btn btn--primary action-btn">Publish</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="post-title-cell">Future of Web Components</td>
+                            <td class="post-author">Alex Rivera</td>
+                            <td><span class="status-badge status-scheduled">Scheduled</span></td>
+                            <td class="post-date">Mar 20, 2024</td>
+                            <td>--</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn--ghost action-btn">Edit</button>
+                                    <button class="btn btn--ghost action-btn">Unschedule</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Admin Sidebar -->
+            <aside class="admin-sidebar">
+                <!-- Recent Activity -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon post">📝</div>
+                            <div class="activity-content">
+                                <div class="activity-text">New post published by Sarah Chen</div>
+                                <div class="activity-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon comment">💬</div>
+                            <div class="activity-content">
+                                <div class="activity-text">3 new comments on "CSS Grid Layouts"</div>
+                                <div class="activity-time">4 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon user">👤</div>
+                            <div class="activity-content">
+                                <div class="activity-text">New subscriber: john.doe@example.com</div>
+                                <div class="activity-time">6 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon post">📝</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Post scheduled for next week</div>
+                                <div class="activity-time">1 day ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="btn btn--secondary btn--sm">
+                            <span>✍️</span> Write New Post
+                        </button>
+                        <button class="btn btn--ghost btn--sm">
+                            <span>💬</span> Moderate Comments
+                        </button>
+                        <button class="btn btn--ghost btn--sm">
+                            <span>📧</span> Send Newsletter
+                        </button>
+                        <button class="btn btn--ghost btn--sm">
+                            <span>📊</span> View Analytics
+                        </button>
+                        <button class="btn btn--ghost btn--sm">
+                            <span>⚙️</span> Blog Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">System Status</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: var(--text-sm);">Server</span>
+                            <span class="status-badge status-published">Online</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: var(--text-sm);">Database</span>
+                            <span class="status-badge status-published">Healthy</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: var(--text-sm);">CDN</span>
+                            <span class="status-badge status-published">Active</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: var(--text-sm);">Email Service</span>
+                            <span class="status-badge status-published">Running</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Theme Switcher Module -->
+    <script src="../../js/theme-switcher.js"></script>
+    
+    <script>
+        // Admin-specific functionality can go here
+
+        // Table row interactions
+        document.querySelectorAll('.posts-table tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.backgroundColor = 'var(--color-hover-overlay)';
+            });
+            
+            row.addEventListener('mouseleave', () => {
+                row.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // Action button handlers
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log('Action:', btn.textContent, 'clicked');
+                // In a real app, this would handle the specific action
+            });
+        });
+    </script>
+</body>
+</html>
