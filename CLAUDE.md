@@ -47,3 +47,34 @@ Uses CSS custom properties for runtime theme switching. Dark mode is the primary
 
 **Testing:**
 No formal testing framework. Manual testing via demo page at `index.html`. Build validation runs through GitHub Actions CI.
+
+## Recent Improvements (v1.1.0)
+
+**CSS Architecture Optimization:**
+- Consolidated spacing utilities in `layouts/utilities.css` (removed duplicates from `tokens/spacing.css`)
+- Centralized shadow definitions as single source of truth in `tokens/spacing.css`
+- Enhanced utility classes with directional padding/margin (`px-`, `py-`, `mx-`, `my-`)
+- Streamlined theme system by removing redundant color definitions
+
+**Theme System Enhancements:**
+- Fixed theme switcher JavaScript selector conflict that prevented proper theme switching
+- Removed focus border on theme button clicks (maintains keyboard accessibility via `:focus-visible`)
+- Added comprehensive system preference detection with smooth fallbacks
+- Improved theme transition performance and reduced flash of unstyled content (FOUC)
+
+**New Components:**
+- `components/header.css` - Complete responsive header with navigation, mobile menu, user profile
+- `js/theme-switcher.js` - Advanced theme switching with cookie persistence and system detection
+- Example templates in `examples/` folder (blog, gallery, wiki with admin panels)
+- Added `tokens/z-index.css` for proper stacking context management
+
+**Bundle Optimization:**
+- **Tokens bundle**: 11.9kb (design tokens only)
+- **Components bundle**: 23.5kb (all UI components including new header)
+- **Themes bundle**: 12.9kb (theme system and utilities)
+- **Main bundle**: 70.2kb (complete optimized system)
+
+**Build System Improvements:**
+- Created `themes/index.css` for proper theme bundle support
+- All build commands working correctly with new architecture
+- Modular import capability maintained while optimizing performance
