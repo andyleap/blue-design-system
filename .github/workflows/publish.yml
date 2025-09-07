@@ -35,6 +35,24 @@ jobs:
       - name: Build project
         run: npm run build
         
+      - name: Verify build quality
+        run: |
+          echo "Checking build outputs before publish..."
+          test -f "dist/design-system.css" || exit 1
+          test -f "dist/design-system.min.css" || exit 1
+          test -f "tokens/bundle.css" || exit 1
+          test -f "components/bundle.css" || exit 1
+          test -f "themes/bundle.css" || exit 1
+          
+          # Check that minified version is smaller than main version
+          MAIN_SIZE=$(wc -c < "dist/design-system.css")
+          MIN_SIZE=$(wc -c < "dist/design-system.min.css")
+          if [ "$MIN_SIZE" -ge "$MAIN_SIZE" ]; then
+            echo "❌ Minified CSS is not smaller than main CSS"
+            exit 1
+          fi
+          echo "✅ Build quality verified"
+        
       - name: Run tests (if any)
         run: npm test --if-present
         
