@@ -1,6 +1,6 @@
 {
   "name": "blue-design-system",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A blue-focused design system optimized for dark mode with beautiful gradients and modern aesthetics",
   "main": "dist/design-system.css",
   "style": "dist/design-system.css",
