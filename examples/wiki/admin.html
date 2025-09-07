@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki Admin - Blue Design System</title>
+    <link rel="stylesheet" href="../../design-system.css">
+    <style>
+        /* Wiki Admin specific styles */
+        .admin-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-6);
+            margin-top: var(--space-4);
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .admin-title {
+            font-size: var(--text-3xl);
+            margin: 0;
+            color: var(--color-text);
+        }
+        
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: var(--space-8);
+        }
+        
+        .admin-sidebar {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            height: fit-content;
+            position: sticky;
+            top: calc(var(--header-height, 80px) + var(--space-6));
+        }
+        
+        .sidebar-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .sidebar-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-3);
+            color: var(--color-text);
+        }
+        
+        .page-tree {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .page-tree-item {
+            margin-bottom: var(--space-1);
+        }
+        
+        .page-tree-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-text-subtle);
+            font-size: var(--text-sm);
+            transition: var(--transition-all);
+        }
+        
+        .page-tree-link:hover,
+        .page-tree-link.active {
+            background: var(--color-primary-100);
+            color: var(--color-primary-700);
+        }
+        
+        .page-actions {
+            display: flex;
+            gap: var(--space-1);
+            opacity: 0;
+            transition: var(--transition-all);
+        }
+        
+        .page-tree-link:hover .page-actions {
+            opacity: 1;
+        }
+        
+        .page-action {
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xs);
+        }
+        
+        .page-action:hover {
+            background: var(--color-hover-overlay);
+        }
+        
+        .admin-main {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-6);
+            background: var(--color-surface-variant);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .editor-title {
+            font-size: var(--text-xl);
+            margin: 0;
+            color: var(--color-text);
+        }
+        
+        .editor-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .editor-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 70vh;
+        }
+        
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .editor-pane-header {
+            padding: var(--space-3) var(--space-6);
+            background: var(--color-surface-elevated);
+            border-bottom: 1px solid var(--color-border-subtle);
+            font-weight: var(--font-medium);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+        }
+        
+        .markdown-editor {
+            flex: 1;
+            padding: var(--space-6);
+            border: none;
+            background: var(--color-surface);
+            color: var(--color-text);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            line-height: var(--leading-relaxed);
+            resize: none;
+            outline: none;
+        }
+        
+        .preview-pane {
+            flex: 1;
+            padding: var(--space-6);
+            overflow-y: auto;
+            border-left: 1px solid var(--color-border-subtle);
+            background: var(--color-surface-variant);
+        }
+        
+        .preview-content h1,
+        .preview-content h2,
+        .preview-content h3 {
+            margin-top: 0;
+            margin-bottom: var(--space-3);
+        }
+        
+        .preview-content h2 {
+            border-bottom: 1px solid var(--color-border-subtle);
+            padding-bottom: var(--space-2);
+        }
+        
+        .preview-content p {
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-3);
+        }
+        
+        .preview-content code {
+            background: var(--color-surface);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-3);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-1);
+        }
+        
+        .stat-number.primary { color: var(--color-primary-500); }
+        .stat-number.success { color: var(--color-success-500); }
+        .stat-number.warning { color: var(--color-warning-500); }
+        
+        .stat-label {
+            color: var(--color-text-subtle);
+            font-size: var(--text-xs);
+        }
+        
+        .recent-changes {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .change-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        
+        .change-item:last-child {
+            border-bottom: none;
+        }
+        
+        .change-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xs);
+            flex-shrink: 0;
+        }
+        
+        .change-icon.edit { background: var(--color-primary-100); color: var(--color-primary-600); }
+        .change-icon.create { background: var(--color-success-100); color: var(--color-success-600); }
+        .change-icon.delete { background: var(--color-error-100); color: var(--color-error-600); }
+        
+        .change-content {
+            flex: 1;
+        }
+        
+        .change-text {
+            font-size: var(--text-sm);
+            color: var(--color-text);
+            margin-bottom: var(--space-1);
+        }
+        
+        .change-meta {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+        
+        .page-meta-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+            padding: var(--space-4);
+            background: var(--color-surface-elevated);
+            border-radius: var(--radius-md);
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-weight: var(--font-medium);
+            margin-bottom: var(--space-2);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+        }
+        
+        .form-input,
+        .form-select {
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-surface);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+        }
+        
+        @media (max-width: 1200px) {
+            .editor-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-pane {
+                border-left: none;
+                border-top: 1px solid var(--color-border-subtle);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+                gap: var(--space-6);
+            }
+            
+            .admin-sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .admin-main {
+                order: 1;
+            }
+            
+            .editor-header {
+                flex-direction: column;
+                gap: var(--space-3);
+                align-items: stretch;
+            }
+            
+            .page-meta-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Header -->
+    <header class="header header--sticky header--shadow" id="main-header">
+        <a href="../../" class="header__brand">
+            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            Wiki Admin
+        </a>
+        
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link header__nav-link--active">Pages</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Categories</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Users</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="index.html" class="header__nav-link">View Wiki</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="../../" class="header__nav-link">Design System</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="header__actions">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <span class="light-only">🌙</span>
+                <span class="dark-only">☀️</span>
+            </button>
+            <div class="header__user">
+                <div class="header__avatar">AD</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Container -->
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <header class="admin-header">
+            <h1 class="admin-title">Wiki Management</h1>
+            <div style="display: flex; gap: var(--space-3);">
+                <button class="btn btn--secondary">
+                    <span>📊</span> Analytics
+                </button>
+                <button class="btn btn--primary" onclick="createNewPage()">
+                    <span>📝</span> New Page
+                </button>
+            </div>
+        </header>
+
+        <!-- Admin Layout -->
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <aside class="admin-sidebar">
+                <!-- Page Tree -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Page Structure</h3>
+                    <ul class="page-tree">
+                        <li class="page-tree-item">
+                            <a href="#" class="page-tree-link active" data-page="introduction">
+                                Introduction
+                                <div class="page-actions">
+                                    <button class="page-action" title="Edit">✏️</button>
+                                    <button class="page-action" title="Delete">🗑️</button>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="page-tree-item">
+                            <a href="#" class="page-tree-link" data-page="installation">
+                                Installation
+                                <div class="page-actions">
+                                    <button class="page-action" title="Edit">✏️</button>
+                                    <button class="page-action" title="Delete">🗑️</button>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="page-tree-item">
+                            <a href="#" class="page-tree-link" data-page="colors">
+                                Colors
+                                <div class="page-actions">
+                                    <button class="page-action" title="Edit">✏️</button>
+                                    <button class="page-action" title="Delete">🗑️</button>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="page-tree-item">
+                            <a href="#" class="page-tree-link" data-page="components">
+                                Components
+                                <div class="page-actions">
+                                    <button class="page-action" title="Edit">✏️</button>
+                                    <button class="page-action" title="Delete">🗑️</button>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="page-tree-item">
+                            <a href="#" class="page-tree-link" data-page="theming">
+                                Theming
+                                <div class="page-actions">
+                                    <button class="page-action" title="Edit">✏️</button>
+                                    <button class="page-action" title="Delete">🗑️</button>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Stats -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number primary">47</div>
+                            <div class="stat-label">Pages</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number success">12</div>
+                            <div class="stat-label">Authors</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number warning">8</div>
+                            <div class="stat-label">Drafts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Changes -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Recent Changes</h3>
+                    <div class="recent-changes">
+                        <div class="change-item">
+                            <div class="change-icon edit">✏️</div>
+                            <div class="change-content">
+                                <div class="change-text">Updated "Introduction" page</div>
+                                <div class="change-meta">Sarah Chen • 2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="change-item">
+                            <div class="change-icon create">➕</div>
+                            <div class="change-content">
+                                <div class="change-text">Created "Advanced Theming" page</div>
+                                <div class="change-meta">Alex Rivera • 4 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="change-item">
+                            <div class="change-icon edit">✏️</div>
+                            <div class="change-content">
+                                <div class="change-text">Updated color documentation</div>
+                                <div class="change-meta">Morgan Taylor • 1 day ago</div>
+                            </div>
+                        </div>
+                        <div class="change-item">
+                            <div class="change-icon delete">🗑️</div>
+                            <div class="change-content">
+                                <div class="change-text">Deleted outdated migration guide</div>
+                                <div class="change-meta">Sarah Chen • 2 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Editor -->
+            <main class="admin-main">
+                <!-- Editor Header -->
+                <div class="editor-header">
+                    <h2 class="editor-title" id="currentPageTitle">Introduction</h2>
+                    <div class="editor-actions">
+                        <button class="btn btn--ghost btn--sm">Preview</button>
+                        <button class="btn btn--secondary btn--sm">Save Draft</button>
+                        <button class="btn btn--primary btn--sm">Publish</button>
+                    </div>
+                </div>
+
+                <!-- Page Meta Form -->
+                <div class="page-meta-form">
+                    <div class="form-group">
+                        <label class="form-label" for="pageTitle">Page Title</label>
+                        <input type="text" class="form-input" id="pageTitle" value="Introduction to Blue Design System">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="pageSlug">URL Slug</label>
+                        <input type="text" class="form-input" id="pageSlug" value="introduction">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="pageCategory">Category</label>
+                        <select class="form-select" id="pageCategory">
+                            <option value="getting-started">Getting Started</option>
+                            <option value="design-tokens">Design Tokens</option>
+                            <option value="components">Components</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="pageStatus">Status</label>
+                        <select class="form-select" id="pageStatus">
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                            <option value="review">Under Review</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Editor Content -->
+                <div class="editor-content">
+                    <!-- Markdown Editor -->
+                    <div class="editor-pane">
+                        <div class="editor-pane-header">Markdown Editor</div>
+                        <textarea class="markdown-editor" id="markdownEditor" placeholder="Start writing your documentation..."># Introduction to Blue Design System
+
+Blue Design System is a modern, accessible design system optimized for dark mode interfaces. It provides a comprehensive set of design tokens, components, and utilities for building beautiful web applications.
+
+## Key Features
+
+* **Dark Mode Optimized:** Beautiful gradients and shadows designed for dark interfaces
+* **Accessibility First:** WCAG 2.1 AA compliant with proper contrast ratios  
+* **Token-Based Architecture:** Consistent design tokens for scalable design
+* **Modern CSS:** Uses CSS Grid, Flexbox, and custom properties
+* **Responsive Design:** Mobile-first approach with flexible breakpoints
+
+## Color Palette
+
+The design system features a carefully curated blue-focused color palette:
+
+| Color | Usage | CSS Variable |
+|-------|-------|--------------|
+| Primary Blue | Main brand color, CTAs | `--color-primary-500` |
+| Secondary Cyan | Accents, highlights | `--color-secondary-500` |
+| Success Green | Success states | `--color-success-500` |
+
+## Getting Started
+
+To start using Blue Design System in your project:
+
+1. Include the CSS file in your HTML
+2. Apply the theme data attribute  
+3. Start using components and utilities
+
+```html
+<!-- Include the design system -->
+<link rel="stylesheet" href="design-system.css">
+
+<!-- Apply dark theme -->
+<body data-theme="dark">
+  <button class="btn btn--primary">Get Started</button>
+</body>
+```
+
+> **Important:** Always use design tokens instead of hardcoded colors to ensure consistency and enable theming.</textarea>
+                    </div>
+
+                    <!-- Preview Pane -->
+                    <div class="editor-pane">
+                        <div class="editor-pane-header">Live Preview</div>
+                        <div class="preview-pane">
+                            <div class="preview-content" id="previewContent">
+                                <h1>Introduction to Blue Design System</h1>
+                                <p>Blue Design System is a modern, accessible design system optimized for dark mode interfaces. It provides a comprehensive set of design tokens, components, and utilities for building beautiful web applications.</p>
+                                
+                                <h2>Key Features</h2>
+                                <ul>
+                                    <li><strong>Dark Mode Optimized:</strong> Beautiful gradients and shadows designed for dark interfaces</li>
+                                    <li><strong>Accessibility First:</strong> WCAG 2.1 AA compliant with proper contrast ratios</li>
+                                    <li><strong>Token-Based Architecture:</strong> Consistent design tokens for scalable design</li>
+                                    <li><strong>Modern CSS:</strong> Uses CSS Grid, Flexbox, and custom properties</li>
+                                    <li><strong>Responsive Design:</strong> Mobile-first approach with flexible breakpoints</li>
+                                </ul>
+                                
+                                <h2>Color Palette</h2>
+                                <p>The design system features a carefully curated blue-focused color palette:</p>
+                                
+                                <table style="width: 100%; border-collapse: collapse; margin: var(--space-4) 0;">
+                                    <thead>
+                                        <tr style="background: var(--color-surface-variant);">
+                                            <th style="padding: var(--space-3); text-align: left; border-bottom: 1px solid var(--color-border);">Color</th>
+                                            <th style="padding: var(--space-3); text-align: left; border-bottom: 1px solid var(--color-border);">Usage</th>
+                                            <th style="padding: var(--space-3); text-align: left; border-bottom: 1px solid var(--color-border);">CSS Variable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">Primary Blue</td>
+                                            <td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);">Main brand color, CTAs</td>
+                                            <td style="padding: var(--space-3); border-bottom: 1px solid var(--color-border);"><code>--color-primary-500</code></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Theme Switcher Module -->
+    <script src="../../js/theme-switcher.js"></script>
+    
+    <script>
+        // Page data
+        const pages = {
+            introduction: {
+                title: "Introduction to Blue Design System",
+                slug: "introduction",
+                category: "getting-started",
+                status: "published",
+                content: `# Introduction to Blue Design System
+
+Blue Design System is a modern, accessible design system optimized for dark mode interfaces...`
+            },
+            installation: {
+                title: "Installation Guide",
+                slug: "installation", 
+                category: "getting-started",
+                status: "published",
+                content: `# Installation Guide
+
+Learn how to install and set up Blue Design System in your project...`
+            },
+            colors: {
+                title: "Color System",
+                slug: "colors",
+                category: "design-tokens", 
+                status: "published",
+                content: `# Color System
+
+The Blue Design System color palette is carefully crafted...`
+            },
+            components: {
+                title: "UI Components",
+                slug: "components",
+                category: "components",
+                status: "published", 
+                content: `# UI Components
+
+Explore the complete library of UI components...`
+            },
+            theming: {
+                title: "Theming Guide",
+                slug: "theming",
+                category: "advanced",
+                status: "draft",
+                content: `# Theming Guide
+
+Customize the design system for your brand...`
+            }
+        };
+
+        let currentPage = 'introduction';
+
+        // Initialize admin
+        function initAdmin() {
+            setupEventListeners();
+            loadPage(currentPage);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Page tree navigation
+            document.querySelectorAll('.page-tree-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = e.target.getAttribute('data-page');
+                    if (pageId) {
+                        loadPage(pageId);
+                    }
+                });
+            });
+
+            // Markdown editor live preview
+            document.getElementById('markdownEditor').addEventListener('input', updatePreview);
+
+            // Page meta inputs
+            document.getElementById('pageTitle').addEventListener('input', updatePageTitle);
+            document.getElementById('pageSlug').addEventListener('input', updatePageSlug);
+        }
+
+        // Load page data
+        function loadPage(pageId) {
+            if (!pages[pageId]) return;
+
+            currentPage = pageId;
+            const page = pages[pageId];
+
+            // Update active nav
+            document.querySelectorAll('.page-tree-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+            // Update editor
+            document.getElementById('currentPageTitle').textContent = page.title;
+            document.getElementById('pageTitle').value = page.title;
+            document.getElementById('pageSlug').value = page.slug;
+            document.getElementById('pageCategory').value = page.category;
+            document.getElementById('pageStatus').value = page.status;
+            document.getElementById('markdownEditor').value = page.content;
+
+            updatePreview();
+        }
+
+        // Update preview (simplified markdown to HTML)
+        function updatePreview() {
+            const markdown = document.getElementById('markdownEditor').value;
+            let html = markdown
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                .replace(/^1\. (.*$)/gim, '<li>$1</li>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/^(?!<[h|l|b])(.+)/gim, '<p>$1</p>');
+
+            // Wrap lists
+            html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+
+            document.getElementById('previewContent').innerHTML = html;
+        }
+
+        // Update page title
+        function updatePageTitle() {
+            const title = document.getElementById('pageTitle').value;
+            document.getElementById('currentPageTitle').textContent = title;
+            if (pages[currentPage]) {
+                pages[currentPage].title = title;
+            }
+        }
+
+        // Update page slug
+        function updatePageSlug() {
+            const slug = document.getElementById('pageSlug').value;
+            if (pages[currentPage]) {
+                pages[currentPage].slug = slug;
+            }
+        }
+
+        // Create new page
+        function createNewPage() {
+            const title = prompt('Enter page title:');
+            if (title) {
+                const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                const newPageId = slug;
+                
+                pages[newPageId] = {
+                    title: title,
+                    slug: slug,
+                    category: 'getting-started',
+                    status: 'draft',
+                    content: `# ${title}\n\nStart writing your content here...`
+                };
+                
+                // Add to page tree (simplified)
+                console.log('New page created:', pages[newPageId]);
+                loadPage(newPageId);
+            }
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            initAdmin();
+        });
+
+        // Auto-save functionality (simplified)
+        setInterval(() => {
+            if (pages[currentPage]) {
+                pages[currentPage].content = document.getElementById('markdownEditor').value;
+                pages[currentPage].title = document.getElementById('pageTitle').value;
+                pages[currentPage].slug = document.getElementById('pageSlug').value;
+                pages[currentPage].category = document.getElementById('pageCategory').value;
+                pages[currentPage].status = document.getElementById('pageStatus').value;
+                
+                console.log('Auto-saved page:', currentPage);
+            }
+        }, 30000); // Save every 30 seconds
+    </script>
+</body>
+</html>

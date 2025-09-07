@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,27 +80,9 @@
             color: var(--color-primary-700);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
+        /* Theme toggle specific styles */
         .theme-toggle-button {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1000;
-            background: var(--color-surface-elevated);
-            border: 1px solid var(--color-border);
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
             font-size: 1.25rem;
-            transition: all 0.2s;
-            box-shadow: var(--shadow-sm);
-        }
-        .theme-toggle-button:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-md);
         }
         .component-showcase {
             display: grid;
@@ -142,24 +124,92 @@
     </style>
 </head>
 <body>
-    <button class="theme-toggle-button" onclick="toggleTheme()" title="Toggle theme">
-        <span class="light-only">🌙</span>
-        <span class="dark-only">☀️</span>
-    </button>
+    <!-- Header with navigation -->
+    <header class="header header--sticky header--shadow" id="main-header">
+        <a href="#" class="header__brand">
+            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            Blue Design System
+        </a>
+        
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="#colors" class="header__nav-link header__nav-link--active">Colors</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#buttons" class="header__nav-link">Buttons</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#forms" class="header__nav-link">Forms</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#components" class="header__nav-link">Components</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#layout" class="header__nav-link">Layout</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#examples" class="header__nav-link">Examples</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="header__actions">
+            <a href="https://github.com/andyleap/blue-design-system" class="btn btn--ghost btn--icon" title="View on GitHub" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+            </a>
+            <button class="btn btn--ghost btn--icon theme-toggle" title="Toggle theme">
+                <span class="light-only">🌙</span>
+                <span class="dark-only">☀️</span>
+            </button>
+            
+            <div class="header__user">
+                <div class="header__avatar">JD</div>
+                <div class="header__user-info">
+                    <span class="header__user-name">John Doe</span>
+                    <span class="header__user-role">Developer</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu toggle -->
+        <button class="header__menu-toggle" onclick="toggleMobileMenu()" title="Toggle menu">
+            <span style="display: block; width: 20px; height: 2px; background: currentColor; margin: 3px 0;"></span>
+            <span style="display: block; width: 20px; height: 2px; background: currentColor; margin: 3px 0;"></span>
+            <span style="display: block; width: 20px; height: 2px; background: currentColor; margin: 3px 0;"></span>
+        </button>
+        
+        <!-- Mobile menu -->
+        <div class="header__mobile-menu" id="mobileMenu">
+            <ul class="header__mobile-nav-list">
+                <li><a href="#colors" class="header__mobile-nav-link header__mobile-nav-link--active">Colors</a></li>
+                <li><a href="#buttons" class="header__mobile-nav-link">Buttons</a></li>
+                <li><a href="#forms" class="header__mobile-nav-link">Forms</a></li>
+                <li><a href="#components" class="header__mobile-nav-link">Components</a></li>
+                <li><a href="#layout" class="header__mobile-nav-link">Layout</a></li>
+                <li><a href="#examples" class="header__mobile-nav-link">Examples</a></li>
+            </ul>
+            <div style="padding-top: var(--space-4); border-top: 1px solid var(--color-border-subtle); margin-top: var(--space-4); display: flex; justify-content: center;">
+                <a href="https://github.com/andyleap/blue-design-system" class="btn btn--ghost btn--icon" title="View on GitHub" target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
 
-    <div class="container">
+    <div class="container page-content page-content--with-sticky-header">
         <!-- Hero Section -->
         <div class="hero-section">
             <h1 class="hero-title">Blue Design System</h1>
             <p class="hero-subtitle">A modern, accessible design system optimized for dark mode with beautiful blue color palettes and gradients</p>
-            <div class="button-showcase">
-                <button class="btn btn--primary btn--lg">Get Started</button>
-                <button class="btn btn--ghost btn--lg">View on GitHub</button>
-            </div>
         </div>
 
         <!-- Color Palette Demo -->
-        <section class="demo-section">
+        <section class="demo-section" id="colors">
             <h2 class="heading-2">Color Palette</h2>
             <p class="text-muted">Our blue-focused color system designed for both light and dark themes</p>
             
@@ -174,7 +224,7 @@
         </section>
 
         <!-- Button Components -->
-        <section class="demo-section">
+        <section class="demo-section" id="buttons">
             <h2 class="heading-2">Buttons</h2>
             <p class="text-muted">Versatile button components with multiple variants and states</p>
             
@@ -201,7 +251,7 @@
         </section>
 
         <!-- Form Components -->
-        <section class="demo-section">
+        <section class="demo-section" id="forms">
             <h2 class="heading-2">Form Components</h2>
             <p class="text-muted">Clean, accessible form inputs with validation states</p>
             
@@ -257,7 +307,7 @@
         </section>
 
         <!-- Card Components -->
-        <section class="demo-section">
+        <section class="demo-section" id="components">
             <h2 class="heading-2">Cards</h2>
             <p class="text-muted">Flexible card layouts for content organization</p>
             
@@ -335,7 +385,7 @@
         </section>
 
         <!-- Layout System -->
-        <section class="demo-section">
+        <section class="demo-section" id="layout">
             <h2 class="heading-2">Layout System</h2>
             <p class="text-muted">Flexible grid and utility classes for responsive layouts</p>
             
@@ -449,6 +499,63 @@
             </div>
         </section>
 
+        <!-- Examples -->
+        <section class="demo-section" id="examples">
+            <h2 class="heading-2">Template Examples</h2>
+            <p class="text-muted">Explore real-world templates built with the Blue Design System</p>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <div style="background: linear-gradient(135deg, var(--color-primary-400), var(--color-primary-600)); height: 160px; border-radius: var(--radius-base) var(--radius-base) 0 0; display: flex; align-items: center; justify-content: center; font-size: var(--text-6xl);">📝</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Blog Template</h3>
+                        <p class="card__text">Modern blog layout with article cards, sidebar navigation, and author profiles. Includes admin dashboard for content management.</p>
+                        <div style="display: flex; gap: var(--space-2); margin-top: var(--space-4);">
+                            <a href="examples/blog/" class="btn btn--primary btn--sm">View Blog</a>
+                            <a href="examples/blog/admin.html" class="btn btn--ghost btn--sm">Admin Panel</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <div style="background: linear-gradient(135deg, var(--color-secondary-400), var(--color-secondary-600)); height: 160px; border-radius: var(--radius-base) var(--radius-base) 0 0; display: flex; align-items: center; justify-content: center; font-size: var(--text-6xl);">📸</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Photo Gallery</h3>
+                        <p class="card__text">Responsive image gallery with lightbox, filtering, and statistics. Features bulk upload and image management tools.</p>
+                        <div style="display: flex; gap: var(--space-2); margin-top: var(--space-4);">
+                            <a href="examples/gallery/" class="btn btn--primary btn--sm">View Gallery</a>
+                            <a href="examples/gallery/admin.html" class="btn btn--ghost btn--sm">Admin Panel</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <div style="background: linear-gradient(135deg, var(--color-success-400), var(--color-success-600)); height: 160px; border-radius: var(--radius-base) var(--radius-base) 0 0; display: flex; align-items: center; justify-content: center; font-size: var(--text-6xl);">📚</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Wiki Documentation</h3>
+                        <p class="card__text">Documentation site with sidebar navigation, search functionality, and breadcrumbs. Includes markdown editor for content creation.</p>
+                        <div style="display: flex; gap: var(--space-2); margin-top: var(--space-4);">
+                            <a href="examples/wiki/" class="btn btn--primary btn--sm">View Wiki</a>
+                            <a href="examples/wiki/admin.html" class="btn btn--ghost btn--sm">Admin Panel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: var(--space-8); padding: var(--space-6); background: var(--color-surface-variant); border-radius: var(--radius-lg);">
+                <h3 style="margin-bottom: var(--space-3); color: var(--color-text);">Build Your Own</h3>
+                <p style="margin-bottom: var(--space-4); color: var(--color-text-subtle); max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Each template demonstrates different aspects of the design system. Use them as starting points for your own projects or reference implementations.
+                </p>
+                <div style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+                    <span style="background: var(--color-primary-100); color: var(--color-primary-700); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); font-size: var(--text-sm);">Responsive Design</span>
+                    <span style="background: var(--color-secondary-100); color: var(--color-secondary-700); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); font-size: var(--text-sm);">Dark/Light Mode</span>
+                    <span style="background: var(--color-success-100); color: var(--color-success-700); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); font-size: var(--text-sm);">Interactive Components</span>
+                    <span style="background: var(--color-info-100); color: var(--color-info-700); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); font-size: var(--text-sm);">Admin Interfaces</span>
+                </div>
+            </div>
+        </section>
+
         <!-- Typography -->
         <section class="demo-section">
             <h2 class="heading-2">Typography</h2>
@@ -473,30 +580,58 @@
         </footer>
     </div>
 
+    <!-- Theme Switcher Module -->
+    <script src="js/theme-switcher.js"></script>
+    
     <script>
-        // Theme switching functionality
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('header__mobile-menu--open');
         }
 
-        // Apply saved theme on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-            } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-                document.documentElement.setAttribute('data-theme', 'light');
+        // Navigation active state management
+        function updateActiveNavigation() {
+            const sections = ['colors', 'buttons', 'forms', 'components', 'layout', 'examples'];
+            const navLinks = document.querySelectorAll('.header__nav-link, .header__mobile-nav-link');
+            
+            let activeSection = 'colors'; // default
+            
+            for (const section of sections) {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= 100) {
+                        activeSection = section;
+                    }
+                }
             }
-        });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('header__nav-link--active', 'header__mobile-nav-link--active');
+                const href = link.getAttribute('href');
+                if (href === `#${activeSection}`) {
+                    if (link.classList.contains('header__nav-link')) {
+                        link.classList.add('header__nav-link--active');
+                    } else {
+                        link.classList.add('header__mobile-nav-link--active');
+                    }
+                }
+            });
+        }
 
-        // System theme change detection
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (!localStorage.getItem('theme')) {
-                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-            }
+        // Initialize page functionality
+        window.addEventListener('DOMContentLoaded', () => {
+            // Update navigation on scroll
+            window.addEventListener('scroll', updateActiveNavigation);
+            updateActiveNavigation(); // Initial call
+            
+            // Close mobile menu when clicking nav links
+            document.querySelectorAll('.header__mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobileMenu').classList.remove('header__mobile-menu--open');
+                });
+            });
         });
     </script>
 </body>

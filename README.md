@@ -16,6 +16,9 @@ See all components in action with interactive examples and theme switching.
 - 📱 **Responsive design** with mobile-first approach
 - 🎯 **Modern aesthetics** with smooth animations and clean typography
 - 🔧 **Highly customizable** with CSS custom properties
+- 🚀 **Optimized architecture** with consolidated utilities and improved performance
+- 🎛️ **Advanced theme switching** with system preference detection
+- 📋 **Complete component library** including headers, navigation, and examples
 
 ## Quick Start
 
@@ -26,8 +29,20 @@ See all components in action with interactive examples and theme switching.
 Download the bundled CSS file from the [releases page](https://github.com/andyleap/blue-design-system/releases) or use the built version:
 
 ```html
+<!-- Full design system -->
 <link rel="stylesheet" href="https://andyleap.github.io/blue-design-system/dist/design-system.css">
+
+<!-- Or use modular imports for smaller bundle sizes -->
+<link rel="stylesheet" href="tokens/bundle.css">     <!-- Design tokens only -->
+<link rel="stylesheet" href="components/bundle.css"> <!-- Components only -->  
+<link rel="stylesheet" href="themes/bundle.css">     <!-- Theme system only -->
 ```
+
+**Modular Import Benefits:**
+- **Tokens only** (11.9kb): Colors, typography, spacing, shadows
+- **Components only** (23.5kb): Buttons, cards, forms, modals, header
+- **Themes only** (12.9kb): Light/dark themes and utilities
+- **Full system** (70.2kb): Everything combined with optimizations
 
 #### Option 2: Build from Source
 
@@ -42,17 +57,29 @@ If you want to customize the design system or use it with a build process:
 
 ### Theme Setup
 
-Add the theme data attribute to your HTML element:
+The design system includes an advanced theme switcher with system preference detection:
 
 ```html
-<!-- Light theme (default) -->
+<!-- Include the theme switcher JavaScript -->
+<script src="js/theme-switcher.js"></script>
+
+<!-- Add theme toggle button -->
+<button class="btn btn--ghost btn--icon theme-toggle" title="Toggle theme">
+    <span class="light-only">🌙</span>
+    <span class="dark-only">☀️</span>
+</button>
+```
+
+**Manual theme setting:**
+```html
+<!-- Light theme -->
 <html data-theme="light">
 
 <!-- Dark theme -->
 <html data-theme="dark">
 
 <!-- Auto theme (follows system preference) -->
-<html class="theme-auto">
+<html><!-- Leave blank for system preference -->
 ```
 
 ### Basic Usage
@@ -84,6 +111,48 @@ Add the theme data attribute to your HTML element:
 ```
 
 ## Components
+
+### Header Navigation
+
+Complete responsive header with navigation, branding, and user profile:
+
+```html
+<header class="header header--sticky header--shadow">
+    <a href="#" class="header__brand">
+        <div class="header__logo">Logo</div>
+        Your Brand
+    </a>
+    
+    <nav class="header__nav">
+        <ul class="header__nav-list">
+            <li class="header__nav-item">
+                <a href="#" class="header__nav-link header__nav-link--active">Home</a>
+            </li>
+            <li class="header__nav-item">
+                <a href="#" class="header__nav-link">About</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="header__actions">
+        <button class="btn btn--ghost btn--icon theme-toggle">
+            <span class="light-only">🌙</span>
+            <span class="dark-only">☀️</span>
+        </button>
+        
+        <div class="header__user">
+            <div class="header__avatar">JD</div>
+            <div class="header__user-info">
+                <span class="header__user-name">John Doe</span>
+                <span class="header__user-role">Developer</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile menu toggle -->
+    <button class="header__menu-toggle">☰</button>
+</header>
+```
 
 ### Buttons
 

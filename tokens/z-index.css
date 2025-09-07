@@ -1,0 +1,16 @@
+/* Design System - Z-Index Tokens */
+
+:root {
+  /* Z-index scale for layering */
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-overlay: 40;
+  --z-header: 50;
+  --z-modal: 60;
+  --z-popover: 70;
+  --z-tooltip: 80;
+  --z-toast: 90;
+  --z-max: 100;
+}

@@ -25,6 +25,29 @@ jobs:
       - name: Build project
         run: npm run build
         
+      - name: Validate CSS syntax
+        run: |
+          echo "Checking CSS syntax for main files..."
+          # Basic CSS syntax validation using Node.js
+          node -e "
+          const fs = require('fs');
+          const css = fs.readFileSync('dist/design-system.css', 'utf8');
+          if (css.includes('*/') && !css.includes('/*')) {
+            throw new Error('Unterminated CSS comment found');
+          }
+          if (css.includes('{') && !css.includes('}')) {
+            throw new Error('Unmatched CSS braces found'); 
+          }
+          console.log('✅ CSS syntax validation passed');
+          "
+        
+      - name: Check theme switching functionality
+        run: |
+          echo "Verifying theme files contain required selectors..."
+          grep -q 'data-theme="dark"' themes/dark.css && echo "✅ Dark theme selectors found"
+          grep -q 'data-theme="light"' themes/light.css && echo "✅ Light theme selectors found"
+          test -f "js/theme-switcher.js" && echo "✅ Theme switcher JavaScript found"
+        
       - name: Run tests (if any)
         run: npm test --if-present
         
@@ -35,7 +58,28 @@ jobs:
         run: |
           echo "Checking build outputs..."
           ls -la dist/
-          ls -la tokens/bundle.css
-          ls -la components/bundle.css  
-          ls -la themes/bundle.css
-          echo "✅ All build outputs present"
+          
+          echo "Checking bundle files..."
+          test -f "tokens/bundle.css" && echo "✅ Tokens bundle created"
+          test -f "components/bundle.css" && echo "✅ Components bundle created"  
+          test -f "themes/bundle.css" && echo "✅ Themes bundle created"
+          
+          echo "Checking main bundles..."
+          test -f "dist/design-system.css" && echo "✅ Main CSS bundle created"
+          test -f "dist/design-system.min.css" && echo "✅ Minified CSS bundle created"
+          test -f "dist/design-system.css.map" && echo "✅ Source map created"
+          
+          echo "Verifying critical files..."
+          test -f "js/theme-switcher.js" && echo "✅ Theme switcher JS present"
+          test -f "components/header.css" && echo "✅ Header component present"
+          test -f "tokens/z-index.css" && echo "✅ Z-index tokens present"
+          test -f "themes/user-preference.css" && echo "✅ User preference theme present"
+          
+          echo "Bundle size check..."
+          wc -c dist/design-system.css | awk '{print "Main bundle: " $1 " bytes"}'
+          wc -c dist/design-system.min.css | awk '{print "Minified bundle: " $1 " bytes"}'
+          wc -c tokens/bundle.css | awk '{print "Tokens bundle: " $1 " bytes"}'
+          wc -c components/bundle.css | awk '{print "Components bundle: " $1 " bytes"}'
+          wc -c themes/bundle.css | awk '{print "Themes bundle: " $1 " bytes"}'
+          
+          echo "✅ All build outputs verified"

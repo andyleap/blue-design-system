@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Wiki - Blue Design System</title>
+    <link rel="stylesheet" href="../../design-system.css">
+    <style>
+        /* Wiki-specific styles */
+        .wiki-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: var(--space-8);
+            padding: var(--space-6);
+            margin-top: var(--space-4);
+        }
+        
+        .wiki-sidebar {
+            position: sticky;
+            top: calc(var(--header-height, 80px) + var(--space-6));
+            height: fit-content;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+        }
+        
+        .wiki-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .wiki-nav-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .wiki-nav-title {
+            font-weight: var(--font-semibold);
+            font-size: var(--text-sm);
+            color: var(--color-text);
+            margin-bottom: var(--space-3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .wiki-nav-item {
+            margin-bottom: var(--space-1);
+        }
+        
+        .wiki-nav-link {
+            display: block;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-text-subtle);
+            font-size: var(--text-sm);
+            transition: var(--transition-all);
+        }
+        
+        .wiki-nav-link:hover,
+        .wiki-nav-link.active {
+            background: var(--color-primary-100);
+            color: var(--color-primary-700);
+        }
+        
+        .wiki-nav-link.active {
+            font-weight: var(--font-medium);
+        }
+        
+        .wiki-main {
+            min-width: 0;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+        }
+        
+        .wiki-breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+        
+        .breadcrumb-link {
+            color: var(--color-primary-500);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-separator {
+            color: var(--color-text-subtle);
+        }
+        
+        .wiki-header {
+            border-bottom: 1px solid var(--color-border-subtle);
+            padding-bottom: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .wiki-title {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-2);
+            color: var(--color-text);
+        }
+        
+        .wiki-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+        
+        .wiki-content {
+            line-height: var(--leading-relaxed);
+        }
+        
+        .wiki-content h2 {
+            font-size: var(--text-2xl);
+            margin-top: var(--space-8);
+            margin-bottom: var(--space-4);
+            color: var(--color-text);
+            position: relative;
+        }
+        
+        .wiki-content h2::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--space-6));
+            width: 3px;
+            height: 100%;
+            background: var(--color-primary-500);
+            border-radius: var(--radius-full);
+        }
+        
+        .wiki-content h3 {
+            font-size: var(--text-xl);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-3);
+            color: var(--color-text);
+        }
+        
+        .wiki-content code {
+            background: var(--color-surface-variant);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+        }
+        
+        .wiki-content pre {
+            background: var(--color-surface-variant);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            overflow-x: auto;
+            margin: var(--space-4) 0;
+        }
+        
+        .wiki-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .info-box {
+            background: var(--color-info-50);
+            border: 1px solid var(--color-info-200);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin: var(--space-4) 0;
+        }
+        
+        .info-box.warning {
+            background: var(--color-warning-50);
+            border-color: var(--color-warning-200);
+        }
+        
+        .info-box-title {
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-2);
+            color: var(--color-info-700);
+        }
+        
+        .info-box.warning .info-box-title {
+            color: var(--color-warning-700);
+        }
+        
+        .wiki-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--space-4) 0;
+            font-size: var(--text-sm);
+        }
+        
+        .wiki-table th,
+        .wiki-table td {
+            padding: var(--space-3);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .wiki-table th {
+            background: var(--color-surface-variant);
+            font-weight: var(--font-semibold);
+            color: var(--color-text);
+        }
+        
+        .wiki-footer {
+            margin-top: var(--space-12);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--color-border-subtle);
+        }
+        
+        .edit-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+        
+        .tags {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+            margin-top: var(--space-4);
+        }
+        
+        .tag {
+            background: var(--color-primary-100);
+            color: var(--color-primary-700);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            text-decoration: none;
+        }
+        
+        .tag:hover {
+            background: var(--color-primary-200);
+        }
+        
+        .search-box {
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-surface-variant);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary-500);
+            box-shadow: 0 0 0 1px var(--color-primary-500);
+        }
+        
+        @media (max-width: 768px) {
+            .wiki-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
+            
+            .wiki-sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .wiki-main {
+                padding: var(--space-6);
+                order: 1;
+            }
+            
+            .wiki-title {
+                font-size: var(--text-3xl);
+            }
+            
+            .wiki-content h2::before {
+                left: calc(-1 * var(--space-4));
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Header -->
+    <header class="header header--sticky header--shadow" id="main-header">
+        <a href="../../" class="header__brand">
+            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            Blue Design System
+        </a>
+        
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link header__nav-link--active">Documentation</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Guides</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">API</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Community</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="admin.html" class="header__nav-link">Admin</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="../../" class="header__nav-link">Design System</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="header__actions">
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <span class="light-only">🌙</span>
+                <span class="dark-only">☀️</span>
+            </button>
+        </div>
+        
+        <button class="header__menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span style="font-size: 20px;">☰</span>
+        </button>
+        
+        <div class="header__mobile-menu" id="mobileMenu">
+            <ul class="header__mobile-nav-list">
+                <li><a href="#" class="header__mobile-nav-link header__mobile-nav-link--active">Documentation</a></li>
+                <li><a href="#" class="header__mobile-nav-link">Guides</a></li>
+                <li><a href="#" class="header__mobile-nav-link">API</a></li>
+                <li><a href="#" class="header__mobile-nav-link">Community</a></li>
+                <li><a href="admin.html" class="header__mobile-nav-link">Admin</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Wiki Container -->
+    <div class="wiki-container">
+        <!-- Sidebar Navigation -->
+        <aside class="wiki-sidebar">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search documentation...">
+            </div>
+            
+            <nav class="wiki-nav">
+                <div class="wiki-nav-section">
+                    <div class="wiki-nav-title">Getting Started</div>
+                    <ul>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link active">Introduction</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Installation</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Quick Start</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="wiki-nav-section">
+                    <div class="wiki-nav-title">Design Tokens</div>
+                    <ul>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Colors</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Typography</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Spacing</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Breakpoints</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="wiki-nav-section">
+                    <div class="wiki-nav-title">Components</div>
+                    <ul>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Buttons</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Cards</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Forms</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Headers</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Modals</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="wiki-nav-section">
+                    <div class="wiki-nav-title">Advanced</div>
+                    <ul>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Theming</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Customization</a>
+                        </li>
+                        <li class="wiki-nav-item">
+                            <a href="#" class="wiki-nav-link">Best Practices</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="wiki-main">
+            <!-- Breadcrumbs -->
+            <nav class="wiki-breadcrumbs">
+                <a href="#" class="breadcrumb-link">Documentation</a>
+                <span class="breadcrumb-separator">/</span>
+                <a href="#" class="breadcrumb-link">Getting Started</a>
+                <span class="breadcrumb-separator">/</span>
+                <span>Introduction</span>
+            </nav>
+
+            <!-- Page Header -->
+            <header class="wiki-header">
+                <h1 class="wiki-title">Introduction to Blue Design System</h1>
+                <div class="wiki-meta">
+                    <span>Last updated: March 15, 2024</span>
+                    <span>•</span>
+                    <span>5 min read</span>
+                    <span>•</span>
+                    <span>Version 1.0.0</span>
+                </div>
+            </header>
+
+            <!-- Wiki Content -->
+            <div class="wiki-content">
+                <p>
+                    Blue Design System is a modern, accessible design system optimized for dark mode interfaces. 
+                    It provides a comprehensive set of design tokens, components, and utilities for building 
+                    beautiful web applications.
+                </p>
+
+                <div class="info-box">
+                    <div class="info-box-title">💡 Quick Tip</div>
+                    <p>This design system is built with CSS custom properties, making it easy to theme and customize for your specific needs.</p>
+                </div>
+
+                <h2>Key Features</h2>
+                
+                <p>Blue Design System offers several key advantages for modern web development:</p>
+                
+                <ul>
+                    <li><strong>Dark Mode Optimized:</strong> Beautiful gradients and shadows designed for dark interfaces</li>
+                    <li><strong>Accessibility First:</strong> WCAG 2.1 AA compliant with proper contrast ratios</li>
+                    <li><strong>Token-Based Architecture:</strong> Consistent design tokens for scalable design</li>
+                    <li><strong>Modern CSS:</strong> Uses CSS Grid, Flexbox, and custom properties</li>
+                    <li><strong>Responsive Design:</strong> Mobile-first approach with flexible breakpoints</li>
+                </ul>
+
+                <h2>Color Palette</h2>
+                
+                <p>The design system features a carefully curated blue-focused color palette:</p>
+                
+                <table class="wiki-table">
+                    <thead>
+                        <tr>
+                            <th>Color</th>
+                            <th>Usage</th>
+                            <th>CSS Variable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Primary Blue</td>
+                            <td>Main brand color, CTAs</td>
+                            <td><code>--color-primary-500</code></td>
+                        </tr>
+                        <tr>
+                            <td>Secondary Cyan</td>
+                            <td>Accents, highlights</td>
+                            <td><code>--color-secondary-500</code></td>
+                        </tr>
+                        <tr>
+                            <td>Success Green</td>
+                            <td>Success states</td>
+                            <td><code>--color-success-500</code></td>
+                        </tr>
+                        <tr>
+                            <td>Warning Orange</td>
+                            <td>Warning states</td>
+                            <td><code>--color-warning-500</code></td>
+                        </tr>
+                        <tr>
+                            <td>Error Red</td>
+                            <td>Error states</td>
+                            <td><code>--color-error-500</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Usage Examples</h3>
+                
+                <p>Here's how to use the color tokens in your CSS:</p>
+                
+                <pre><code>.my-component {
+  background-color: var(--color-primary-500);
+  color: var(--color-text-inverse);
+  border: 1px solid var(--color-primary-600);
+}</code></pre>
+
+                <div class="info-box warning">
+                    <div class="info-box-title">⚠️ Important</div>
+                    <p>Always use design tokens instead of hardcoded colors to ensure consistency and enable theming.</p>
+                </div>
+
+                <h2>Getting Started</h2>
+                
+                <p>To start using Blue Design System in your project:</p>
+                
+                <ol>
+                    <li>Include the CSS file in your HTML</li>
+                    <li>Apply the theme data attribute</li>
+                    <li>Start using components and utilities</li>
+                </ol>
+                
+                <pre><code>&lt;!-- Include the design system --&gt;
+&lt;link rel="stylesheet" href="design-system.css"&gt;
+
+&lt;!-- Apply dark theme --&gt;
+&lt;body data-theme="dark"&gt;
+  &lt;button class="btn btn--primary"&gt;Get Started&lt;/button&gt;
+&lt;/body&gt;</code></pre>
+
+                <h3>Next Steps</h3>
+                
+                <p>Now that you understand the basics, explore these sections:</p>
+                
+                <ul>
+                    <li><a href="#" class="breadcrumb-link">Installation Guide</a> - Detailed setup instructions</li>
+                    <li><a href="#" class="breadcrumb-link">Design Tokens</a> - Complete token reference</li>
+                    <li><a href="#" class="breadcrumb-link">Components</a> - Available UI components</li>
+                    <li><a href="#" class="breadcrumb-link">Theming</a> - Customization options</li>
+                </ul>
+            </div>
+
+            <!-- Wiki Footer -->
+            <footer class="wiki-footer">
+                <div class="edit-info">
+                    <span>Last edited by <strong>Design Team</strong></span>
+                    <span>March 15, 2024</span>
+                </div>
+                <div class="tags">
+                    <a href="#" class="tag">design-system</a>
+                    <a href="#" class="tag">css</a>
+                    <a href="#" class="tag">dark-mode</a>
+                    <a href="#" class="tag">accessibility</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Theme Switcher Module -->
+    <script src="../../js/theme-switcher.js"></script>
+    
+    <script>
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('header__mobile-menu--open');
+        }
+
+        // Search functionality (basic)
+        const searchInput = document.querySelector('.search-input');
+        const navLinks = document.querySelectorAll('.wiki-nav-link');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            
+            navLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const section = link.closest('.wiki-nav-section');
+                
+                if (text.includes(query) || query === '') {
+                    link.style.display = 'block';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+        });
+
+        // Navigation active state
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Update content (in a real app, this would load different content)
+                console.log('Navigating to:', link.textContent);
+            });
+        });
+
+        // Initialize everything when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            // Page initialization can go here
+        });
+    </script>
+</body>
+</html>

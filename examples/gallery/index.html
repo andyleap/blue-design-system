@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - Blue Design System</title>
+    <link rel="stylesheet" href="../../design-system.css">
+    <style>
+        /* Gallery-specific styles */
+        .gallery-hero {
+            background: var(--gradient-surface);
+            padding: var(--space-16) 0;
+            text-align: center;
+        }
+        
+        .gallery-hero h1 {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-4);
+        }
+        
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-8) var(--space-6);
+        }
+        
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-8);
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-subtle);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-primary-500);
+            border-color: var(--color-primary-500);
+            color: white;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            aspect-ratio: 4/3;
+            background: var(--color-surface-variant);
+            cursor: pointer;
+            transition: var(--transition-all);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(45deg, var(--color-primary-200), var(--color-secondary-300));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-6xl);
+            color: white;
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-4);
+            opacity: 0;
+            transition: var(--transition-all);
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-title {
+            color: white;
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-1);
+        }
+        
+        .gallery-meta {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: var(--text-sm);
+            display: flex;
+            gap: var(--space-3);
+        }
+        
+        .gallery-tags {
+            position: absolute;
+            top: var(--space-3);
+            left: var(--space-3);
+            display: flex;
+            gap: var(--space-1);
+        }
+        
+        .gallery-tag {
+            background: var(--color-primary-100);
+            color: var(--color-primary-700);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: var(--font-medium);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--color-primary-200);
+        }
+        
+        /* Modal styles for lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            padding: var(--space-4);
+        }
+        
+        .lightbox.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+        }
+        
+        .lightbox-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-8xl);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: var(--text-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: var(--text-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-prev {
+            left: var(--space-4);
+        }
+        
+        .lightbox-next {
+            right: var(--space-4);
+        }
+        
+        .stats-section {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-4);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--color-primary-500);
+            margin-bottom: var(--space-1);
+        }
+        
+        .stat-label {
+            color: var(--color-text-subtle);
+            font-size: var(--text-sm);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: var(--space-4);
+            }
+            
+            .gallery-container {
+                padding: var(--space-6) var(--space-4);
+            }
+            
+            .gallery-hero {
+                padding: var(--space-12) var(--space-4);
+            }
+            
+            .gallery-hero h1 {
+                font-size: var(--text-3xl);
+            }
+            
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Header -->
+    <header class="header header--sticky header--shadow" id="main-header">
+        <a href="../../" class="header__brand">
+            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            Blue Design System
+        </a>
+        
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link header__nav-link--active">Gallery</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Collections</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">About</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Contact</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="admin.html" class="header__nav-link">Admin</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="../../" class="header__nav-link">Design System</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="header__actions">
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <span class="light-only">🌙</span>
+                <span class="dark-only">☀️</span>
+            </button>
+        </div>
+        
+        <button class="header__menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span style="font-size: 20px;">☰</span>
+        </button>
+        
+        <div class="header__mobile-menu" id="mobileMenu">
+            <ul class="header__mobile-nav-list">
+                <li><a href="#" class="header__mobile-nav-link header__mobile-nav-link--active">Gallery</a></li>
+                <li><a href="#" class="header__mobile-nav-link">Collections</a></li>
+                <li><a href="#" class="header__mobile-nav-link">About</a></li>
+                <li><a href="#" class="header__mobile-nav-link">Contact</a></li>
+                <li><a href="admin.html" class="header__mobile-nav-link">Admin</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Gallery Hero -->
+    <section class="gallery-hero">
+        <h1>Photo Gallery</h1>
+        <p>A curated collection of stunning photography and visual art.</p>
+    </section>
+
+    <!-- Main Gallery Content -->
+    <div class="gallery-container">
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">247</div>
+                    <div class="stat-label">Photos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Collections</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12.5k</div>
+                    <div class="stat-label">Views</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1.2k</div>
+                    <div class="stat-label">Likes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Filters -->
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="nature">Nature</button>
+            <button class="filter-btn" data-filter="architecture">Architecture</button>
+            <button class="filter-btn" data-filter="portrait">Portrait</button>
+            <button class="filter-btn" data-filter="abstract">Abstract</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Gallery items will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">×</button>
+            <button class="lightbox-nav lightbox-prev" onclick="prevImage()">‹</button>
+            <button class="lightbox-nav lightbox-next" onclick="nextImage()">›</button>
+            <div class="lightbox-image" id="lightboxImage">📷</div>
+        </div>
+    </div>
+
+    <!-- Theme Switcher Module -->
+    <script src="../../js/theme-switcher.js"></script>
+    
+    <script>
+        // Gallery data
+        const galleryData = [
+            { id: 1, title: "Mountain Landscape", category: "nature", icon: "🏔️", date: "2024-03-15", views: "1.2k" },
+            { id: 2, title: "Modern Architecture", category: "architecture", icon: "🏢", date: "2024-03-14", views: "890" },
+            { id: 3, title: "Portrait Study", category: "portrait", icon: "👤", date: "2024-03-13", views: "2.1k" },
+            { id: 4, title: "Abstract Art", category: "abstract", icon: "🎨", date: "2024-03-12", views: "756" },
+            { id: 5, title: "Forest Path", category: "nature", icon: "🌲", date: "2024-03-11", views: "1.8k" },
+            { id: 6, title: "City Skyline", category: "architecture", icon: "🌆", date: "2024-03-10", views: "945" },
+            { id: 7, title: "Ocean Waves", category: "nature", icon: "🌊", date: "2024-03-09", views: "1.5k" },
+            { id: 8, title: "Geometric Forms", category: "abstract", icon: "🔷", date: "2024-03-08", views: "623" },
+            { id: 9, title: "Street Photography", category: "portrait", icon: "📸", date: "2024-03-07", views: "1.1k" },
+            { id: 10, title: "Garden Flowers", category: "nature", icon: "🌸", date: "2024-03-06", views: "2.3k" },
+            { id: 11, title: "Bridge Design", category: "architecture", icon: "🌉", date: "2024-03-05", views: "834" },
+            { id: 12, title: "Color Splash", category: "abstract", icon: "💫", date: "2024-03-04", views: "967" }
+        ];
+
+        let currentFilter = 'all';
+        let currentImageIndex = 0;
+
+        // Initialize gallery
+        function initGallery() {
+            renderGallery();
+            setupFilterButtons();
+        }
+
+        // Render gallery items
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            const filteredData = currentFilter === 'all' 
+                ? galleryData 
+                : galleryData.filter(item => item.category === currentFilter);
+
+            grid.innerHTML = filteredData.map(item => `
+                <div class="gallery-item" onclick="openLightbox(${item.id})">
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">${item.category}</span>
+                    </div>
+                    <div class="gallery-image">${item.icon}</div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">${item.title}</div>
+                        <div class="gallery-meta">
+                            <span>${item.date}</span>
+                            <span>${item.views} views</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Setup filter buttons
+        function setupFilterButtons() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active state
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Update filter and re-render
+                    currentFilter = btn.dataset.filter;
+                    renderGallery();
+                });
+            });
+        }
+
+        // Lightbox functionality
+        function openLightbox(id) {
+            const item = galleryData.find(item => item.id === id);
+            currentImageIndex = galleryData.findIndex(item => item.id === id);
+            
+            document.getElementById('lightboxImage').innerHTML = item.icon;
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryData.length;
+            const item = galleryData[currentImageIndex];
+            document.getElementById('lightboxImage').innerHTML = item.icon;
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryData.length) % galleryData.length;
+            const item = galleryData[currentImageIndex];
+            document.getElementById('lightboxImage').innerHTML = item.icon;
+        }
+
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('header__mobile-menu--open');
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                switch(e.key) {
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                    case 'ArrowLeft':
+                        prevImage();
+                        break;
+                    case 'ArrowRight':
+                        nextImage();
+                        break;
+                }
+            }
+        });
+
+        // Close lightbox when clicking outside
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Initialize everything when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            initGallery();
+        });
+    </script>
+</body>
+</html>
