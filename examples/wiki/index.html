@@ -5,22 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design Wiki - Blue Design System</title>
     <link rel="stylesheet" href="../../design-system.css">
+    <link rel="stylesheet" href="../shared/example-header.css">
+    <link rel="stylesheet" href="../shared/badges-tags.css">
     <style>
         /* Wiki-specific styles */
         .wiki-container {
             max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: var(--space-8);
-            padding: var(--space-6);
             margin-top: var(--space-4);
         }
         
         .wiki-sidebar {
-            position: sticky;
-            top: calc(var(--header-height, 80px) + var(--space-6));
-            height: fit-content;
             background: var(--color-surface);
             border-radius: var(--radius-lg);
             padding: var(--space-6);
@@ -222,24 +216,9 @@
         }
         
         .tags {
-            display: flex;
-            gap: var(--space-2);
-            flex-wrap: wrap;
             margin-top: var(--space-4);
         }
         
-        .tag {
-            background: var(--color-primary-100);
-            color: var(--color-primary-700);
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--radius-sm);
-            font-size: var(--text-xs);
-            text-decoration: none;
-        }
-        
-        .tag:hover {
-            background: var(--color-primary-200);
-        }
         
         .search-box {
             margin-bottom: var(--space-6);
@@ -263,20 +242,8 @@
         }
         
         @media (max-width: 768px) {
-            .wiki-container {
-                grid-template-columns: 1fr;
-                gap: var(--space-4);
-                padding: var(--space-4);
-            }
-            
-            .wiki-sidebar {
-                position: static;
-                order: 2;
-            }
-            
             .wiki-main {
                 padding: var(--space-6);
-                order: 1;
             }
             
             .wiki-title {
@@ -293,7 +260,7 @@
     <!-- Header -->
     <header class="header header--sticky header--shadow" id="main-header">
         <a href="../../" class="header__brand">
-            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            <div class="example-header__logo">B</div>
             Blue Design System
         </a>
         
@@ -343,9 +310,9 @@
     </header>
 
     <!-- Wiki Container -->
-    <div class="wiki-container">
+    <div class="example-container example-layout example-layout--wide-sidebar wiki-container">
         <!-- Sidebar Navigation -->
-        <aside class="wiki-sidebar">
+        <aside class="example-sidebar wiki-sidebar">
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="Search documentation...">
             </div>
@@ -423,7 +390,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="wiki-main">
+        <main class="example-main wiki-main">
             <!-- Breadcrumbs -->
             <nav class="wiki-breadcrumbs">
                 <a href="#" class="breadcrumb-link">Documentation</a>
@@ -574,13 +541,9 @@
 
     <!-- Theme Switcher Module -->
     <script src="../../js/theme-switcher.js"></script>
+    <script src="../shared/example-header.js"></script>
     
     <script>
-        // Mobile menu functionality
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('header__mobile-menu--open');
-        }
 
         // Search functionality (basic)
         const searchInput = document.querySelector('.search-input');
