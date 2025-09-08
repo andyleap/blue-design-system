@@ -5,23 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Gallery - Blue Design System</title>
     <link rel="stylesheet" href="../../design-system.css">
+    <link rel="stylesheet" href="../shared/example-header.css">
+    <link rel="stylesheet" href="../shared/badges-tags.css">
     <style>
         /* Gallery-specific styles */
-        .gallery-hero {
-            background: var(--gradient-surface);
-            padding: var(--space-16) 0;
-            text-align: center;
-        }
-        
-        .gallery-hero h1 {
-            font-size: var(--text-4xl);
-            margin-bottom: var(--space-4);
-        }
         
         .gallery-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: var(--space-8) var(--space-6);
+            padding: var(--space-8) 0;
         }
         
         .gallery-filters {
@@ -243,15 +233,7 @@
             }
             
             .gallery-container {
-                padding: var(--space-6) var(--space-4);
-            }
-            
-            .gallery-hero {
-                padding: var(--space-12) var(--space-4);
-            }
-            
-            .gallery-hero h1 {
-                font-size: var(--text-3xl);
+                padding: var(--space-6) 0;
             }
             
             .lightbox-nav {
@@ -276,7 +258,7 @@
     <!-- Header -->
     <header class="header header--sticky header--shadow" id="main-header">
         <a href="../../" class="header__brand">
-            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            <div class="example-header__logo">B</div>
             Blue Design System
         </a>
         
@@ -326,13 +308,13 @@
     </header>
 
     <!-- Gallery Hero -->
-    <section class="gallery-hero">
+    <section class="example-hero example-hero--surface gallery-hero">
         <h1>Photo Gallery</h1>
         <p>A curated collection of stunning photography and visual art.</p>
     </section>
 
     <!-- Main Gallery Content -->
-    <div class="gallery-container">
+    <div class="example-container example-container--wide gallery-container">
         <!-- Stats Section -->
         <div class="stats-section">
             <div class="stats-grid">
@@ -382,6 +364,7 @@
 
     <!-- Theme Switcher Module -->
     <script src="../../js/theme-switcher.js"></script>
+    <script src="../shared/example-header.js"></script>
     
     <script>
         // Gallery data
@@ -474,11 +457,6 @@
             document.getElementById('lightboxImage').innerHTML = item.icon;
         }
 
-        // Mobile menu functionality
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('header__mobile-menu--open');
-        }
 
         // Keyboard navigation for lightbox
         document.addEventListener('keydown', (e) => {

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Blog - Blue Design System</title>
     <link rel="stylesheet" href="../../design-system.css">
+    <link rel="stylesheet" href="../shared/example-header.css">
     <style>
         /* Blog-specific styles */
         .blog-hero {
@@ -98,18 +99,6 @@
             flex-wrap: wrap;
         }
         
-        .tag {
-            background: var(--color-primary-100);
-            color: var(--color-primary-700);
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--radius-sm);
-            font-size: var(--text-xs);
-            text-decoration: none;
-        }
-        
-        .tag:hover {
-            background: var(--color-primary-200);
-        }
         
         .sidebar-section {
             margin-bottom: var(--space-6);
@@ -147,32 +136,13 @@
             color: var(--color-text-muted);
         }
         
-        @media (max-width: 768px) {
-            .blog-container {
-                grid-template-columns: 1fr;
-                gap: var(--space-6);
-                padding: 0 var(--space-4);
-            }
-            
-            .blog-sidebar {
-                position: static;
-            }
-            
-            .blog-hero {
-                padding: var(--space-12) var(--space-4);
-            }
-            
-            .blog-hero h1 {
-                font-size: var(--text-3xl);
-            }
-        }
     </style>
 </head>
 <body data-theme="dark">
     <!-- Header -->
     <header class="header header--sticky header--shadow" id="main-header">
         <a href="../../" class="header__brand">
-            <div class="header__logo" style="background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">B</div>
+            <div class="example-header__logo">B</div>
             Blue Design System
         </a>
         
@@ -222,14 +192,16 @@
     </header>
 
     <!-- Blog Hero -->
-    <section class="blog-hero">
-        <h1>Tech Insights Blog</h1>
-        <p>Exploring the latest in web development, design systems, and modern technology.</p>
+    <section class="hero hero--gradient blog-hero">
+        <div class="hero__content">
+            <h1 class="hero__title hero__title--lg">Tech Insights Blog</h1>
+            <p class="hero__description">Exploring the latest in web development, design systems, and modern technology.</p>
+        </div>
     </section>
 
     <!-- Main Blog Content -->
-    <div class="blog-container">
-        <main class="blog-main">
+    <div class="container layout-two-column layout-two-column--sidebar-right blog-container">
+        <main class="layout-main blog-main">
             <!-- Featured Post -->
             <article class="post-card card card--elevated">
                 <div class="card__body">
@@ -250,10 +222,10 @@
                         Learn how to create maintainable and scalable design systems using CSS custom properties. 
                         We'll explore token-based architecture, theming strategies, and best practices for large-scale applications.
                     </p>
-                    <div class="post-tags">
-                        <a href="#" class="tag">CSS</a>
-                        <a href="#" class="tag">Design Systems</a>
-                        <a href="#" class="tag">Frontend</a>
+                    <div class="badge-group">
+                        <a href="#" class="badge badge--primary">CSS</a>
+                        <a href="#" class="badge badge--primary">Design Systems</a>
+                        <a href="#" class="badge badge--primary">Frontend</a>
                     </div>
                 </div>
             </article>
@@ -278,9 +250,9 @@
                         Dive deep into advanced CSS Grid techniques including subgrid, container queries, 
                         and responsive design patterns that work across all modern browsers.
                     </p>
-                    <div class="post-tags">
-                        <a href="#" class="tag">CSS Grid</a>
-                        <a href="#" class="tag">Responsive Design</a>
+                    <div class="badge-group">
+                        <a href="#" class="badge badge--primary">CSS Grid</a>
+                        <a href="#" class="badge badge--primary">Responsive Design</a>
                     </div>
                 </div>
             </article>
@@ -304,17 +276,17 @@
                         A comprehensive guide to implementing accessible dark mode interfaces. 
                         Learn about contrast ratios, color perception, and testing strategies for inclusive design.
                     </p>
-                    <div class="post-tags">
-                        <a href="#" class="tag">Accessibility</a>
-                        <a href="#" class="tag">Dark Mode</a>
-                        <a href="#" class="tag">UX</a>
+                    <div class="badge-group">
+                        <a href="#" class="badge badge--primary">Accessibility</a>
+                        <a href="#" class="badge badge--primary">Dark Mode</a>
+                        <a href="#" class="badge badge--primary">UX</a>
                     </div>
                 </div>
             </article>
         </main>
 
         <!-- Sidebar -->
-        <aside class="blog-sidebar">
+        <aside class="layout-sidebar layout-sidebar--sticky">
             <div class="sidebar-section card">
                 <div class="card__body">
                     <h3 class="sidebar-title">Recent Posts</h3>
@@ -371,12 +343,6 @@
     <!-- Theme Switcher Module -->
     <script src="../../js/theme-switcher.js"></script>
     
-    <script>
-        // Mobile menu functionality
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('header__mobile-menu--open');
-        }
-    </script>
+    <script src="../shared/example-header.js"></script>
 </body>
 </html>

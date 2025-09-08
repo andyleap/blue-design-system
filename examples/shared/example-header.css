@@ -1,0 +1,115 @@
+/* Shared Example Header Styles */
+
+/* Brand logo styling that's consistent across examples */
+.example-header__logo {
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+}
+
+/* Hero section styling used in multiple examples */
+.example-hero {
+    padding: var(--space-16) 0;
+    text-align: center;
+}
+
+.example-hero--gradient {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.example-hero--surface {
+    background: var(--gradient-surface);
+}
+
+.example-hero h1 {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+}
+
+.example-hero p {
+    font-size: var(--text-xl);
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Main container patterns used across examples */
+.example-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+.example-container--wide {
+    max-width: 1400px;
+}
+
+.example-container--extrawide {
+    max-width: 1600px;
+}
+
+/* Two-column layout pattern */
+.example-layout {
+    display: grid;
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+}
+
+.example-layout--sidebar {
+    grid-template-columns: 1fr 300px;
+}
+
+.example-layout--wide-sidebar {
+    grid-template-columns: 250px 1fr;
+}
+
+.example-layout--admin {
+    grid-template-columns: 300px 1fr;
+}
+
+/* Sidebar styling */
+.example-sidebar {
+    position: sticky;
+    top: calc(var(--header-height, 80px) + var(--space-6));
+    height: fit-content;
+}
+
+/* Main content area */
+.example-main {
+    min-width: 0;
+}
+
+/* Mobile responsiveness for layouts */
+@media (max-width: 768px) {
+    .example-layout--sidebar,
+    .example-layout--wide-sidebar,
+    .example-layout--admin {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+        padding: 0 var(--space-4);
+    }
+    
+    .example-sidebar {
+        position: static;
+    }
+    
+    .example-hero {
+        padding: var(--space-12) var(--space-4);
+    }
+    
+    .example-hero h1 {
+        font-size: var(--text-3xl);
+    }
+    
+    .example-container {
+        padding: 0 var(--space-4);
+    }
+}

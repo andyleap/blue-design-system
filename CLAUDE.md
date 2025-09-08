@@ -48,7 +48,37 @@ Uses CSS custom properties for runtime theme switching. Dark mode is the primary
 **Testing:**
 No formal testing framework. Manual testing via demo page at `index.html`. Build validation runs through GitHub Actions CI.
 
-## Recent Improvements (v1.1.0)
+## Recent Improvements (v1.2.0)
+
+**Major Component Expansion:**
+- Extracted 5 new components from examples to main design system
+- `components/badge.css` - Status, priority, and role variants with semantic colors
+- `components/table.css` - Data tables with sorting, selection, and responsive design
+- `components/hero.css` - Hero sections with gradient backgrounds and multiple layouts
+- `components/activity-feed.css` - Timeline components for dashboards and activity streams
+- `layouts/two-column.css` - Responsive two-column layout utilities
+
+**Component Library Growth:**
+- Component count: 5 → 10 components (doubled)
+- All new components fully responsive and mobile-first
+- Dark mode optimized using design system tokens
+- Accessibility ready with proper semantic markup
+- Comprehensive variants for each component
+
+**Bundle Size Updates:**
+- **Tokens bundle**: 11.9kb (design tokens only)
+- **Components bundle**: 53.0kb (expanded from 23.5kb - all UI components)
+- **Themes bundle**: 12.9kb (theme system and utilities)  
+- **Main bundle**: ~95kb (complete optimized system with new components)
+
+**Example Code Consolidation:**
+- Created shared utilities in `examples/shared/` for common patterns
+- `examples/shared/admin-shared.css` - Common admin panel styles
+- `examples/shared/badges-tags.css` - Reusable badge and tag patterns
+- `examples/shared/example-header.css` - Consistent header styling across examples
+- All examples now use main design system components instead of duplicated code
+
+## Previous Improvements (v1.1.0)
 
 **CSS Architecture Optimization:**
 - Consolidated spacing utilities in `layouts/utilities.css` (removed duplicates from `tokens/spacing.css`)
@@ -61,18 +91,6 @@ No formal testing framework. Manual testing via demo page at `index.html`. Build
 - Removed focus border on theme button clicks (maintains keyboard accessibility via `:focus-visible`)
 - Added comprehensive system preference detection with smooth fallbacks
 - Improved theme transition performance and reduced flash of unstyled content (FOUC)
-
-**New Components:**
-- `components/header.css` - Complete responsive header with navigation, mobile menu, user profile
-- `js/theme-switcher.js` - Advanced theme switching with cookie persistence and system detection
-- Example templates in `examples/` folder (blog, gallery, wiki with admin panels)
-- Added `tokens/z-index.css` for proper stacking context management
-
-**Bundle Optimization:**
-- **Tokens bundle**: 11.9kb (design tokens only)
-- **Components bundle**: 23.5kb (all UI components including new header)
-- **Themes bundle**: 12.9kb (theme system and utilities)
-- **Main bundle**: 70.2kb (complete optimized system)
 
 **Build System Improvements:**
 - Created `themes/index.css` for proper theme bundle support
