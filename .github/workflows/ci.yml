@@ -60,9 +60,9 @@ jobs:
           ls -la dist/
           
           echo "Checking bundle files..."
-          test -f "tokens/bundle.css" && echo "✅ Tokens bundle created"
-          test -f "components/bundle.css" && echo "✅ Components bundle created"  
-          test -f "themes/bundle.css" && echo "✅ Themes bundle created"
+          test -f "dist/tokens.css" && echo "✅ Tokens bundle created"
+          test -f "dist/components.css" && echo "✅ Components bundle created"  
+          test -f "dist/themes.css" && echo "✅ Themes bundle created"
           
           echo "Checking main bundles..."
           test -f "dist/design-system.css" && echo "✅ Main CSS bundle created"
@@ -78,8 +78,8 @@ jobs:
           echo "Bundle size check..."
           wc -c dist/design-system.css | awk '{print "Main bundle: " $1 " bytes"}'
           wc -c dist/design-system.min.css | awk '{print "Minified bundle: " $1 " bytes"}'
-          wc -c tokens/bundle.css | awk '{print "Tokens bundle: " $1 " bytes"}'
-          wc -c components/bundle.css | awk '{print "Components bundle: " $1 " bytes"}'
-          wc -c themes/bundle.css | awk '{print "Themes bundle: " $1 " bytes"}'
+          wc -c dist/tokens.css | awk '{print "Tokens bundle: " $1 " bytes"}'
+          wc -c dist/components.css | awk '{print "Components bundle: " $1 " bytes"}'
+          wc -c dist/themes.css | awk '{print "Themes bundle: " $1 " bytes"}'
           
           echo "✅ All build outputs verified"
